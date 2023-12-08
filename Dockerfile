@@ -39,9 +39,11 @@ ENV PATH $CONDA_BIN_PATH:$PATH
 
 RUN conda install mamba -n base -c conda-forge 
 
-RUN conda create --yes --name napari python=3.10 
-RUN  mamba install -c conda-forge -n napari napari pyqt napari-ome-zarr && \
-  mamba update -y -n napari napari 
+#RUN conda create --yes --name napari python=3.10 
+RUN mamba create --name napari python=3.9 devbio-napari pyqt -c conda-forge -c pytorch  
+RUN mamba install --yes -c conda-forge ocl-icd-system
+#mamba install -c conda-forge -n napari napari pyqt napari-ome-zarr && \
+#  mamba update -y -n napari napari 
 
 EXPOSE 5800
 

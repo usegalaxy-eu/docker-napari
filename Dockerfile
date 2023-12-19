@@ -2,7 +2,7 @@ FROM jlesage/baseimage-gui:ubuntu-22.04-v4.5.2 AS build
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV TZ Europe/Berlin
-ENV QT_XCB_NO_MITSHM=1 
+#ENV QT_XCB_NO_MITSHM=1 
 ENV NVIDIA_VISIBLE_DEVICES "all",
 ENV NVIDIA_DRIVER_CAPABILITIES "compute,utility"
 
@@ -25,6 +25,8 @@ RUN apt-get install -qqy wget mesa-utils \
                          libxcb-xinput0 \
                          libxcb-xfixes0 \
                          libxcb-shape0 \
+                         qt5dxcb-plugin \
+                         libxcb-cursor0 \
                          fonts-dejavu \
                          libarchive-dev \
                          fontconfig
@@ -39,11 +41,9 @@ ENV PATH $CONDA_BIN_PATH:$PATH
 
 RUN conda install mamba -n base -c conda-forge 
 
-#RUN conda create --yes --name napari python=3.10 
 RUN mamba create --name napari python=3.9 devbio-napari pyqt -c conda-forge -c pytorch  
 RUN mamba install --yes -c conda-forge ocl-icd-system
-#mamba install -c conda-forge -n napari napari pyqt napari-ome-zarr && \
-#  mamba update -y -n napari napari 
+Run mamba install --yes pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia
 
 EXPOSE 5800
 

@@ -1,3 +1,8 @@
 #!/bin/sh -f
 
-/opt/conda/envs/napari/bin/napari
+PATH=${PATH}:/opt/conda/envs/napari/bin
+
+export PATH
+
+naparia
+

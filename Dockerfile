@@ -41,9 +41,9 @@ ENV PATH $CONDA_BIN_PATH:$PATH
 
 RUN conda install mamba -n base -c conda-forge 
 
-RUN mamba create --name napari python=3.9 devbio-napari pyqt -c conda-forge -c pytorch  
+RUN mamba create --name napari python=3.9 napari pyqt -c conda-forge -c pytorch  
 RUN mamba install --yes -c conda-forge ocl-icd-system
-Run mamba install --yes pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia
+#Run mamba install --yes pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia
 
 EXPOSE 5800
 

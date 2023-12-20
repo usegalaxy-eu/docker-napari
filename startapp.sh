@@ -4,5 +4,5 @@ PATH=${PATH}:/opt/conda/envs/napari/bin
 
 export PATH
 
-naparia
+napari
 

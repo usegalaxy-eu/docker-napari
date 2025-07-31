@@ -1,8 +1,7 @@
-FROM jlesage/baseimage-gui:ubuntu-22.04-v4.5.2 AS build
+FROM jlesage/baseimage-gui:ubuntu-22.04-v4.9.0 AS build
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV TZ Europe/Berlin
-#ENV QT_XCB_NO_MITSHM=1 
 ENV NVIDIA_VISIBLE_DEVICES "all",
 ENV NVIDIA_DRIVER_CAPABILITIES "compute,utility"
 
@@ -32,18 +31,16 @@ RUN apt-get install -qqy wget mesa-utils \
                          fontconfig
 
 WORKDIR /tmp
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
-    && bash Miniconda3-latest-Linux-x86_64.sh -b -p /opt/conda \
-    && rm -f Miniconda3-latest-Linux-x86_64.sh 
+RUN wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh \
+    && bash Miniforge3-Linux-x86_64.sh -b -p /opt/conda \
+    && rm -f Miniforge3-Linux-x86_64.sh 
 
 ENV CONDA_BIN_PATH="/opt/conda/bin"
 ENV PATH $CONDA_BIN_PATH:$PATH
 
 RUN conda install mamba -n base -c conda-forge 
 
-RUN mamba create --name napari python=3.9 napari pyqt napari-ome-zarr -c conda-forge -c pytorch  
-RUN mamba install --yes -c conda-forge ocl-icd-system
-#Run mamba install --yes pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia
+RUN mamba create --name napari python=3.11 napari pyqt napari-omero napari-skimage napari-ome-zarr -c conda-forge
 
 EXPOSE 5800
 
@@ -55,6 +52,6 @@ ENV APP_NAME="Napari"
 ENV KEEP_APP_RUNNING=0
 
 ENV TAKE_CONFIG_OWNERSHIP=1
-
+COPY rc.xml.template /opt/base/etc/openbox/rc.xml.template
 
 WORKDIR /config

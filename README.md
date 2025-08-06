@@ -12,7 +12,7 @@
 You can start the container outside of Galaxy with:
 
 ```bash
-docker run -i -t --rm -v /path/to/infile.tiff:/opt/qupath/infile.tiff -p 8080:5800 quay.io/sunyi000/napari-galaxy:v0.6.2 bash
+docker run -i -t --rm -v /path/to/infile.tiff:/opt/napari/infile.tiff -p 8080:5800 quay.io/sunyi000/napari-galaxy:v0.6.2 bash
 ```
 
 Once you are in the container you can start the application with:

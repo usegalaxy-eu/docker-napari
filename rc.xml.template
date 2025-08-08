@@ -525,27 +525,26 @@
 
   <!-- Main window should be maximized and without decoration. -->
   
-  <!-- title="QuPath" matches the main window -->
-  <application title="napari">
+  <application title="Napari">
     <decor>yes</decor>
     <maximized>yes</maximized>
     <fullscreen>yes</fullscreen>
     <layer>below</layer>
   </application>
 
-  <application type="normal" class="napari">
+  <application type="normal" class="Napari">
     <decor>yes</decor>
     <maximized>no</maximized>
     <layer>above</layer>
   </application>
 
-  <application type="utility" class="napari">
+  <application type="utility" class="Napari">
     <decor>yes</decor>
     <maximized>no</maximized>
     <layer>above</layer>
   </application>
 
-  <application type="splash" class="napari">
+  <application type="splash" class="Napari">
     <decor>yes</decor>
     <maximized>no</maximized>
     <layer>above</layer>

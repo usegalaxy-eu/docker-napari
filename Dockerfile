@@ -50,3 +50,12 @@ RUN chmod +x /startapp.sh
 COPY rc.xml.template /opt/base/etc/openbox/rc.xml.template
 
 WORKDIR /config
+RUN mkdir -p ./home/input ./home/output ./home/omero
+RUN useradd -m -u 677 -g 100 nuser
+
+ENV CONTAINER_INSTANCE_ID_FILE=/.docker-instance/uuid
+
+RUN mkdir -p --mode=555 "$(dirname "${CONTAINER_INSTANCE_ID_FILE}")" && /opt/base/bin/uuidgen > "${CONTAINER_INSTANCE_ID_FILE}" && chmod 444 "${CONTAINER_INSTANCE_ID_FILE}"
+
+RUN chgrp -R 100 ./home && chmod -R g+rw ./home
+

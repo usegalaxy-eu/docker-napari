@@ -57,5 +57,5 @@ ENV CONTAINER_INSTANCE_ID_FILE=/.docker-instance/uuid
 
 RUN mkdir -p --mode=555 "$(dirname "${CONTAINER_INSTANCE_ID_FILE}")" && /opt/base/bin/uuidgen > "${CONTAINER_INSTANCE_ID_FILE}" && chmod 444 "${CONTAINER_INSTANCE_ID_FILE}"
 
-RUN chgrp -R 100 ./home && chmod -R g+rw ./home
+RUN chgrp -R users /.docker-instance/
 

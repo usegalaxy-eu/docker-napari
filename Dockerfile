@@ -51,7 +51,6 @@ COPY rc.xml.template /opt/base/etc/openbox/rc.xml.template
 
 WORKDIR /config
 RUN mkdir -p ./home/input ./home/output ./home/omero
-RUN useradd -m -u 677 -g 100 nuser
 
 ENV CONTAINER_INSTANCE_ID_FILE=/.docker-instance/uuid
 

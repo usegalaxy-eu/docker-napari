@@ -29,4 +29,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: quay.io/galaxy/napari:${{ github.event.release.tag_name }}
+          tags: |
+            quay.io/galaxy/napari:${{ github.event.release.tag_name }}
+            quay.io/galaxy/napari:latest

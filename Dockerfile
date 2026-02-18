@@ -41,7 +41,7 @@ RUN wget https://github.com/conda-forge/miniforge/releases/latest/download/Minif
 
 ENV PATH="/opt/conda/bin:$PATH"
 
-RUN mamba create -c conda-forge --name napari python=3.12 napari=0.6.6 pyqt napari-omero napari-skimage napari-ome-zarr \
+RUN /opt/conda/bin/mamba create --name napari -c conda-forge python=3.12 napari=0.6.6 pyqt napari-omero napari-skimage napari-ome-zarr \
     && /opt/conda/bin/mamba run -n napari pip install napari-trackastra
 
 EXPOSE 5800

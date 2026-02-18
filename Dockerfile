@@ -1,4 +1,4 @@
-FROM jlesage/baseimage-gui:ubuntu-22.04-v4.9.0 AS build
+FROM jlesage/baseimage-gui:ubuntu-22.04-v4.9.0
 
 ENV DEBIAN_FRONTEND=noninteractive \
     TZ="Europe/Berlin" \
@@ -31,25 +31,23 @@ RUN apt-get update -y && apt-get install -qqy build-essential \
     libxcb-cursor0 \
     fonts-dejavu \
     libarchive-dev \
-    fontconfig
+    fontconfig \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp
 RUN wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh \
     && bash Miniforge3-Linux-x86_64.sh -b -p /opt/conda \
     && rm -f Miniforge3-Linux-x86_64.sh
 
-ENV CONDA_BIN_PATH="/opt/conda/bin"
-ENV PATH=$CONDA_BIN_PATH:$PATH
+ENV PATH="/opt/conda/bin:$PATH"
 
-RUN mamba create -c conda-forge --name napari python=3.12 napari=0.6.6 pyqt napari-omero napari-skimage napari-ome-zarr
-
-RUN /opt/conda/bin/mamba run -n napari pip install napari-trackastra
+RUN mamba create -c conda-forge --name napari python=3.12 napari=0.6.6 pyqt napari-omero napari-skimage napari-ome-zarr \
+    && /opt/conda/bin/mamba run -n napari pip install napari-trackastra
 
 EXPOSE 5800
 
 COPY startapp.sh /startapp.sh
-RUN chmod +x /startapp.sh
-
 COPY rc.xml.template /opt/base/etc/openbox/rc.xml.template
+RUN chmod +x /startapp.sh
 
 WORKDIR /config

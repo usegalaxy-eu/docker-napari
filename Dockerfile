@@ -8,8 +8,10 @@ ENV DEBIAN_FRONTEND=noninteractive \
     KEEP_APP_RUNNING=0 \
     TAKE_CONFIG_OWNERSHIP=1
 
-RUN apt-get update -y && apt-get install -qqy build-essential \
-    wget mesa-utils \
+# Install dependencies and clean up in a single layer
+RUN apt-get update -y && apt-get install -qqy --no-install-recommends \
+    wget \
+    mesa-utils \
     unzip \
     libgl1-mesa-glx \
     libglib2.0-0 \
@@ -32,17 +34,31 @@ RUN apt-get update -y && apt-get install -qqy build-essential \
     fonts-dejavu \
     libarchive-dev \
     fontconfig \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get autoremove -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+# Install Miniforge and clean up in a single layer
 WORKDIR /tmp
-RUN wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh \
+RUN wget --no-check-certificate https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh \
     && bash Miniforge3-Linux-x86_64.sh -b -p /opt/conda \
-    && rm -f Miniforge3-Linux-x86_64.sh
+    && rm -f Miniforge3-Linux-x86_64.sh \
+    && /opt/conda/bin/conda clean -afy
 
 ENV PATH="/opt/conda/bin:$PATH"
 
-RUN /opt/conda/bin/mamba create --name napari -c conda-forge python=3.12 napari=0.6.6 pyqt napari-omero napari-skimage napari-ome-zarr \
-    && /opt/conda/bin/mamba run -n napari pip install napari-trackastra
+# Create conda environment, install packages, and clean up caches
+RUN /opt/conda/bin/mamba create -y --name napari -c conda-forge \
+    python=3.12 \
+    napari=0.6.6 \
+    pyqt \
+    napari-omero \
+    napari-skimage \
+    napari-ome-zarr \
+    && /opt/conda/bin/mamba run -n napari pip install --no-cache-dir napari-trackastra \
+    && /opt/conda/bin/conda clean -afy \
+    && /opt/conda/bin/mamba clean -afy \
+    && rm -rf /opt/conda/pkgs /tmp/*
 
 EXPOSE 5800
 

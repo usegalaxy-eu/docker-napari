@@ -10,6 +10,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 RUN apt-get update -y && apt-get install -qqy build-essential \
     wget mesa-utils \
+    unzip \
     libgl1-mesa-glx \
     libglib2.0-0 \
     libfontconfig1 \
@@ -35,10 +36,10 @@ RUN apt-get update -y && apt-get install -qqy build-essential \
 WORKDIR /tmp
 RUN wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh \
     && bash Miniforge3-Linux-x86_64.sh -b -p /opt/conda \
-    && rm -f Miniforge3-Linux-x86_64.sh 
+    && rm -f Miniforge3-Linux-x86_64.sh
 
 ENV CONDA_BIN_PATH="/opt/conda/bin"
-ENV PATH $CONDA_BIN_PATH:$PATH
+ENV PATH=$CONDA_BIN_PATH:$PATH
 
 RUN mamba create -c conda-forge --name napari python=3.12 napari=0.6.6 pyqt napari-omero napari-skimage napari-ome-zarr
 

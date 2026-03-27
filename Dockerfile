@@ -55,6 +55,7 @@ RUN /opt/conda/bin/mamba create -y --name napari -c conda-forge \
     napari-omero \
     napari-skimage \
     napari-ome-zarr \
+    napari-spatialdata=0.7.0 \
     && /opt/conda/bin/mamba run -n napari pip install --no-cache-dir napari-trackastra \
     && /opt/conda/bin/conda clean -afy \
     && /opt/conda/bin/mamba clean -afy \

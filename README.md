@@ -12,16 +12,10 @@
 You can start the container outside of Galaxy with:
 
 ```bash
-xhost +local:*
-
-docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v /path/to/infile.tiff:/opt/napari/infile.tiff -p 8080:5800 quay.io/galaxy/napari-galaxy:v0.6.2 bash
+docker run -it --rm -v /path/to/infile.tiff:/opt/napari/infile.tiff quay.io/galaxy/napari-galaxy:latest
 ```
 
-Once you are in the container you can start the application with:
-
-```bash
-/startapp.sh
-```
+Once the container gets started you can access the IT in http://localhost:8080/.
 
 ### Add napari plugins to the image
 To add specific napari plugins, include them directly in the [Dockerfile](https://github.com/usegalaxy-eu/docker-napari/blob/589ff99e21e9d9fb14b8d58031f26d389a78b214/Dockerfile#L43-L44)
